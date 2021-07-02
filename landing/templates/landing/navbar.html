@@ -25,7 +25,7 @@
         <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="#"> <i class="fas fa-user"></i> </a>
             <ul class="dropdown-menu">
-                <li><a href="#" class="dropdown-item">Profile</a></li>
+                <li><a href="{% url 'profile' user.profile.pk %}" class="dropdown-item">Profile</a></li>
                 <li><a href="{% url 'account_logout' %}" class="dropdown-item">Sign out</a></li>
             </ul>
         </div>
