@@ -15,10 +15,11 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
          
         </ul>
-        <form class="d-flex">
+        <form class="d-flex" action="{% url 'profile-search' %}" method="GET">
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1">@</span>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="query" value="{{ request.GET.query }}">
+                <button style="background-color: transparent; border:none; box-shadow:none" type="submit"> <i class="fas fa-search"></i></button>
             </div>
         </form>
         {% if user.is_authenticated %}
