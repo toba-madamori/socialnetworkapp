@@ -23,7 +23,7 @@
     {% for post in post_list %}
     <div class="row justify-content-center mt-3">
         <div class="col-md-5 col-sm-12 border-bottom position-relative">
-            <p><a href="{% url 'profile' post.author.profile.pk %}" style="text-decoration: none;" class="text-primary">@{{ post.author }}</a>{{ post.created_on }}</p>
+            <p><a href="{% url 'profile' post.author.profile.pk %}"  class="text-primary post-link">@{{ post.author }}</a>{{ post.created_on }}</p>
             <div class="position-relative">
                 <p>{{ post.body }}</p>
                 <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
@@ -32,14 +32,14 @@
                 <form method="POST" action="{% url 'like' post.pk %}">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.path }}">
-                    <button style="background-color: transparent; border:none; box-shadow:none;" type="submit">
+                    <button class="remove-default-btn" type="submit">
                         <i class="far fa-thumbs-up"> <span> {{ post.likes.all.count }}</span></i>
                     </button>
                 </form>
                 <form method="POST" action="{% url 'dislike' post.pk %}">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.path }}">
-                    <button style="background-color: transparent; border:none; box-shadow:none;" type="submit">
+                    <button class="remove-default-btn" type="submit">
                         <i class="far fa-thumbs-down">{{ post.dislikes.all.count }}</i>
                     </button>
                 </form>

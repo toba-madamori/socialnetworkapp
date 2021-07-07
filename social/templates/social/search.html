@@ -10,7 +10,7 @@
     {% for profile in profile_list %}
         <div class="row justify-content-center mt-3">
             <div class="col-md-5 col-sm-12 border-bottom position-relative">
-                <p><a href="{% url 'profile' profile.pk %}" style="text-decoration: none;" class="text-primary">@{{ profile.user }}</a></p>
+                <p><a href="{% url 'profile' profile.pk %}"  class="text-primary post-link">@{{ profile.user }}</a></p>
                 {% if profile.location %}
                     <p>{{ profile.location }}</p>
                 {% endif %}

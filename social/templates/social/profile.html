@@ -14,7 +14,7 @@
             <h3 class="py-4"> {{ profile.name }} 
                 <span>
                     {% if request.user == user %}
-                        <a href="{% url 'profile-edit' profile.pk %}" style="color:#333;"><i class="far fa-edit"></i></a>
+                        <a href="{% url 'profile-edit' profile.pk %}" class="edit-color"><i class="far fa-edit"></i></a>
                     {% endif %}                    
                 </span>
             </h3>
@@ -22,7 +22,7 @@
                 <h3 class="py-4">{{ user.username }}</h3>
                     <span>
                         {% if request.user == user %}
-                            <a href="{% url 'profile-edit' profile.pk %}" style="color:#333;"><i class="far fa-edit"></i></a>
+                            <a href="{% url 'profile-edit' profile.pk %}" class="edit-color"><i class="far fa-edit"></i></a>
                         {% endif %}                    
                     </span>
             {% endif %}    
@@ -61,7 +61,7 @@
     {% for post in posts %}
     <div class="row justify-content-center mt-5">
         <div class="col-md-8 col-sm-12 border-bottom">
-            <p><a href="{% url 'profile' post.author.profile.pk %}" style="text-decoration: none;" class="text-primary">@{{ post.author }}</a>{{ post.created_on }}</p>
+            <p><a href="{% url 'profile' post.author.profile.pk %}"  class="text-primary post-link">@{{ post.author }}</a>{{ post.created_on }}</p>
             <div class="position-relative">
                 <p>{{ post.body }}</p>
                 <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
@@ -70,14 +70,14 @@
                 <form method="POST" action="{% url 'like' post.pk %}">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.path }}">
-                    <button style="background-color: transparent; border:none; box-shadow:none;" type="submit">
+                    <button class="remove-default-btn" type="submit">
                         <i class="far fa-thumbs-up"> <span> {{ post.likes.all.count }}</span></i>
                     </button>
                 </form>
                 <form method="POST" action="{% url 'dislike' post.pk %}">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.path }}">
-                    <button style="background-color: transparent; border:none; box-shadow:none;" type="submit">
+                    <button class="remove-default-btn" type="submit">
                         <i class="far fa-thumbs-down">{{ post.dislikes.all.count }}</i>
                     </button>
                 </form>
