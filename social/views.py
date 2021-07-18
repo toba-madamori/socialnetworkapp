@@ -1,3 +1,5 @@
+from django import forms
+from django.core.checks import messages
 from django.db.models import Q
 from django.dispatch.dispatcher import receiver
 from django.http.response import HttpResponse, HttpResponseRedirect
@@ -6,8 +8,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views import View
 from django.contrib.auth.models import User
-from .models import Notification, Post, Comment, ThreadModel, UserProfile
-from .forms import PostForm, CommentForm, ThreadForm
+from .models import MessageModel, Notification, Post, Comment, ThreadModel, UserProfile
+from .forms import MessageForm, PostForm, CommentForm, ThreadForm
 from django.views.generic.edit import UpdateView, DeleteView
 
 # Create your views here.
@@ -395,3 +397,33 @@ class CreateThread(View):
         except:
             return redirect('create-thread')
 
+
+class ThreadView(View):
+    def get(self, request, pk,  *args, **kwargs):
+        form = MessageForm()
+        thread = ThreadModel.objects.get(pk=pk)
+        message_list = MessageModel.objects.filter(thread__pk__contains=pk)
+        
+        context = {
+            'form': form,
+            'thread': thread,
+            'message_list': message_list
+        }
+        return render(request, 'social/thread.html', context)
+
+class CreateMessage(View):
+    def post(self, request, pk, *args, **kwargs):
+        thread = ThreadModel.objects.get(pk=pk)
+        if thread.receiver == request.user:
+            receiver = thread.user
+        else:
+            receiver = thread.receiver
+
+        message = MessageModel(
+            thread = thread,
+            sender_user = request.user,
+            receiver_user = receiver,
+            body = request.POST.get('message') 
+        )       
+        message.save()
+        return redirect('thread', pk=pk)           
