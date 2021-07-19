@@ -1,6 +1,7 @@
 from django import forms
 from django.core.checks import messages
 from django.db.models import Q
+from django.contrib import messages
 from django.dispatch.dispatcher import receiver
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -350,6 +351,17 @@ class FollowNotification(View):
 
         return redirect('profile', pk=profile_pk)
 
+class ThreadNotification(View):
+    def get(self, request, notification_pk, thread_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+        thread = ThreadModel.objects.get(pk=thread_pk)
+
+        notification.user_has_seen = True
+        notification.save()
+
+        return redirect('thread', pk=thread_pk)
+
+
 class RemoveNotification(View):
     def delete(self, request, notification_pk, *args, **kwargs):
         notification = Notification.objects.get(pk=notification_pk)
@@ -395,6 +407,7 @@ class CreateThread(View):
                 thread.save()
                 return redirect('thread', pk=thread.pk)   
         except:
+            messages.error(request, 'Invalid Username')
             return redirect('create-thread')
 
 
@@ -426,4 +439,10 @@ class CreateMessage(View):
             body = request.POST.get('message') 
         )       
         message.save()
+        notification = Notification.objects.create(
+            notification_type = 4,
+            from_user = request.user, 
+            to_user = receiver,
+            thread = thread
+        )
         return redirect('thread', pk=pk)           

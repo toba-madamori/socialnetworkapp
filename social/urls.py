@@ -1,6 +1,6 @@
 from os import name
 from django.urls import path
-from social.views import PostListView, PostDetailView, PostEditView, PostDeleteView, CommentDeleteView, ProfileView, ProfileEditView, AddFollower, RemoveFollower, AddLikes, Dislike, UserSearch, FollowersList, AddCommentLikes, CommentDislike, CommentReplyView, PostNotification, FollowNotification, RemoveNotification, CreateThread, ListThread, ThreadView, CreateMessage
+from social.views import PostListView, PostDetailView, PostEditView, PostDeleteView, CommentDeleteView, ProfileView, ProfileEditView, AddFollower, RemoveFollower, AddLikes, Dislike, UserSearch, FollowersList, AddCommentLikes, CommentDislike, CommentReplyView, PostNotification, FollowNotification, RemoveNotification, CreateThread, ListThread, ThreadView, CreateMessage, ThreadNotification
 
 urlpatterns= [
     path('', PostListView.as_view(), name='post-list'),
@@ -21,6 +21,7 @@ urlpatterns= [
     path('search/', UserSearch.as_view(), name='profile-search'),
     path('notification/<int:notification_pk>/post/<int:post_pk>/', PostNotification.as_view(), name='post-notification'),
     path('notification/<int:notification_pk>/profile/<int:profile_pk>/', FollowNotification.as_view(), name='follow-notification'),
+    path('notification/<int:notification_pk>/thread/<int:thread_pk>/', ThreadNotification.as_view(), name='thread-notification'),
     path('notification/delete/<int:notification_pk>/', RemoveNotification.as_view(), name='notification-delete'),
     path('inbox/', ListThread.as_view(), name='inbox'),
     path('inbox/create-thread/', CreateThread.as_view(), name='create-thread'),
