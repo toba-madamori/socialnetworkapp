@@ -8,3 +8,5 @@ The app was not deployed so a few things where overlooked like the environment v
 
 Note that this was done with the help of a tutorial video series.
 
+Note that it is not a real time chat app
+
